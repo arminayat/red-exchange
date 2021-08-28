@@ -1,0 +1,47 @@
+html {
+  // --orange: #f69021;
+  // --orange2: #fe805c;
+  // --gray: #58595b;
+  // --primary: #4d70fa;
+  --bg: #f4f5fe;
+  --success: #00c48c;
+  --failure: #e85766;
+
+  --spacing-xxl: 6.4rem;
+  --spacing-m: 3.2rem;
+  --spacing-s: 2.4rem;
+  --spacing-xs: 1.6rem;
+  --spacing-xxs: 0.8rem;
+
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: IRANSans !important;
+  box-sizing: border-box !important;
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
+  p {
+    direction: rtl;
+  }
+}
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: 0;
+}
