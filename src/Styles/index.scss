@@ -16,10 +16,11 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-size: 10px;
 }
 body {
   margin: 0;
-  font-family: IRANSans !important;
+  font-family: "Roboto Mono" !important;
   box-sizing: border-box !important;
   ul {
     list-style-type: none;
@@ -43,5 +44,8 @@ button {
 }
 
 button:focus {
+  outline: 0;
+}
+input:focus {
   outline: 0;
 }
