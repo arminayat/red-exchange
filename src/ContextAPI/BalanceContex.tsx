@@ -5,13 +5,47 @@ import { ConversionTypes, CurrenciesTypes } from "../Models";
 type BalanceType = { [Currency in CurrenciesTypes]: number };
 type BalanceActionType = {
   type: ConversionTypes;
-  payload: { amount: number };
+  payload: { sellAmount: number; buyAmount: number };
 };
 
 const balanceReducer = (state: BalanceType, action: BalanceActionType) => {
   switch (action.type) {
+    case "USD_TO_EUR":
+      return {
+        ...state,
+        USD: state.USD - action.payload.sellAmount,
+        EUR: state.EUR + action.payload.buyAmount,
+      };
+    case "USD_TO_GBP":
+      return {
+        ...state,
+        USD: state.USD - action.payload.sellAmount,
+        GBP: state.GBP + action.payload.buyAmount,
+      };
+    case "EUR_TO_USD":
+      return {
+        ...state,
+        EUR: state.EUR - action.payload.sellAmount,
+        USD: state.USD + action.payload.buyAmount,
+      };
     case "EUR_TO_GBP":
-      return { ...state, EUR: 10, GBP: 20 };
+      return {
+        ...state,
+        EUR: state.EUR - action.payload.sellAmount,
+        GBP: state.GBP + action.payload.buyAmount,
+      };
+    case "GBP_TO_USD":
+      return {
+        ...state,
+        GBP: state.GBP - action.payload.sellAmount,
+        USD: state.USD + action.payload.buyAmount,
+      };
+    case "GBP_TO_EUR":
+      return {
+        ...state,
+        GBP: state.GBP - action.payload.sellAmount,
+        EUR: state.EUR + action.payload.buyAmount,
+      };
     default:
       throw new Error();
   }
