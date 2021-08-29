@@ -10,6 +10,19 @@ const CardBox = styled(Row)`
   background: #ffffff;
   box-shadow: 0px 4px 58px 7px rgba(0, 0, 0, 0.05);
   border-radius: 40px;
+
+  .ant-input-affix-wrapper-focused {
+    border: none;
+    box-shadow: none;
+    :focus{
+      box-shadow: none;
+    }
+  }
+  .ant-input-affix-wrapper{
+    :focus{
+      box-shadow: none !important;
+    }
+  }
 `;
 const CurrencyContainer = styled(Row)`
   height: 100%;
@@ -32,8 +45,13 @@ const CurrencyInput = styled(Input)`
     border: none;
     font-weight: 100;
   }
-  :focus {
-    box-shadow: none;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
   }
 `;
 
