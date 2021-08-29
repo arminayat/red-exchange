@@ -8,6 +8,7 @@ import { BalanceContext } from "../ContextAPI/BalanceContex";
 import { useState } from "react";
 import CURRENCIES, { CURRENCIES_SYMBOLS } from "../Constants/currencies";
 import { CurrenciesTypes } from "../Models";
+import { queryHooks } from "../RESTservice/QueryHooks";
 
 const SwapButton = styled.button`
   display: flex;
@@ -54,15 +55,23 @@ const Homepage = () => {
   ]);
   const [amounts, setAmounts] = useState<number[]>([0, 0]);
 
+  const { data: exchangeRate } = queryHooks.exchangeRate.useGetPairRate(
+    {
+      from: conversion[0],
+      to: conversion[1],
+    },
+    { enabled: false }
+  );
+
   const handleChangeBuyingCurrency = (selectedCurr: CurrenciesTypes) =>
     setConversion((state) => [selectedCurr, state[1]]);
   const handleChangeBuyingAmount = (amount: number) =>
-    setAmounts((state) => [amount, state[1]]);
+    setAmounts([amount, amount * (exchangeRate?.conversion_rate || 1)]);
 
   const handleChangeSellingCurrency = (selectedCurr: CurrenciesTypes) =>
     setConversion((state) => [state[0], selectedCurr]);
   const handleChangeSellingAmount = (amount: number) =>
-    setAmounts((state) => [state[0], amount]);
+    setAmounts([amount / (exchangeRate?.conversion_rate || 1), amount]);
 
   const handleSwapCurrencies = () =>
     setConversion((state) => [state[1], state[0]]);
