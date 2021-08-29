@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <>
       <Row justify="center" style={{ padding: "0 3rem 5rem 3rem" }}>
-        <Col span={15}>
+        <Col md={15} xs={24}>
           <Row justify="space-between" align="middle">
             <P1
               style={{ letterSpacing: "1rem" }}
