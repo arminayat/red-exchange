@@ -38,7 +38,7 @@ const SubmitButton = styled.button`
   padding-bottom: 0.2rem;
   color: rgba(217, 4, 41, 0.8);
   background: rgb(255, 255, 255);
-  transition: 0.5s box-shadow ease;
+  transition: 0.5s box-shadow ease, 0.5s color ease, 0.5s background-color ease;
   box-shadow: 0px 4px 58px 7px rgba(0, 0, 0, 0.05);
   word-spacing: 4px;
   margin-top: 4rem;
@@ -47,8 +47,16 @@ const SubmitButton = styled.button`
     color: rgba(217, 4, 41, 1);
     box-shadow: 0px 4px 40px 7px rgba(239, 35, 60, 0.15);
   }
+  :disabled {
+    color: rgba(0, 0, 0, 0.45);
+    background-color: rgba(0, 0, 0, 0.05);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
 
-  @media ${BREAKPOINTS.mdDown} {margin-top: 2rem;}
+  @media ${BREAKPOINTS.mdDown} {
+    margin-top: 2rem;
+  }
 `;
 
 const Homepage = () => {
@@ -72,11 +80,13 @@ const Homepage = () => {
   const handleChangeBuyingCurrency = (selectedCurr: CurrenciesTypes) =>
     setConversion((state) => [selectedCurr, state[1]]);
   const handleChangeBuyingAmount = (amount: number) =>
+    amount >= 0 &&
     setAmounts([amount, amount * (exchangeRate?.conversion_rate || 1)]);
 
   const handleChangeSellingCurrency = (selectedCurr: CurrenciesTypes) =>
     setConversion((state) => [state[0], selectedCurr]);
   const handleChangeSellingAmount = (amount: number) =>
+    amount >= 0 &&
     setAmounts([amount / (exchangeRate?.conversion_rate || 1), amount]);
 
   const handleSwapCurrencies = () => {
@@ -157,7 +167,12 @@ const Homepage = () => {
       </Col>
       <Col md={15} xs={15}>
         <Row justify="center">
-          <SubmitButton onClick={handleExchange}>EXCHANGE</SubmitButton>
+          <SubmitButton
+            onClick={handleExchange}
+            disabled={amounts[0] > (balanceCtx?.state[conversion[0]] || 0)}
+          >
+            EXCHANGE
+          </SubmitButton>
         </Row>
       </Col>
     </Row>
