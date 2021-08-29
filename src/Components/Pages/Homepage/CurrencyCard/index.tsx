@@ -1,26 +1,30 @@
-import { Col, Input, InputNumber, Row, Space } from "antd";
+import { Col, Input, Row } from "antd";
 import styled from "styled-components";
 import { CurrenciesTypes } from "../../../../Models";
 import Select from "../../../Select";
-import { H6, P1 } from "../../../Typography";
+import { H6 } from "../../../Typography";
 
-const CardBox = styled(Row)`
+const CardBox = styled(Row)<{ error: boolean }>`
   width: 100%;
   height: 15rem;
   padding: 1.3rem;
   background: #ffffff;
-  box-shadow: 0px 4px 58px 7px rgba(0, 0, 0, 0.05);
+  box-shadow: ${(props) =>
+    props.error
+      ? "0px 4px 58px 7px rgba(239, 35, 60, 0.15)"
+      : "0px 4px 58px 7px rgba(0, 0, 0, 0.05)"};
   border-radius: 40px;
+  transition: 0.5s box-shadow ease;
 
   .ant-input-affix-wrapper-focused {
     border: none;
     box-shadow: none;
-    :focus{
+    :focus {
       box-shadow: none;
     }
   }
-  .ant-input-affix-wrapper{
-    :focus{
+  .ant-input-affix-wrapper {
+    :focus {
       box-shadow: none !important;
     }
   }
@@ -62,6 +66,7 @@ type CurrencyCardProp = {
   onCurrencyChange: (currency: CurrenciesTypes) => void;
   onAmountChange: (amount: number) => void;
   type: "sell" | "buy";
+  error: boolean;
 };
 
 const CurrencyCard = ({
@@ -70,26 +75,27 @@ const CurrencyCard = ({
   onCurrencyChange,
   onAmountChange,
   type,
+  error,
 }: CurrencyCardProp) => {
   return (
-      <CardBox justify="space-between">
-        <CurrencyContainer>
-          <Col span={24}>
-            <H6>Sell</H6>
-          </Col>
-          <Col span={24}>
+    <CardBox justify="space-between" error={error}>
+      <CurrencyContainer>
+        <Col span={24}>
+          <H6>{type === "sell" ? "Sell" : "Buy"}</H6>
+        </Col>
+        <Col span={24}>
           <Select
             value={currency}
             onSelect={(selectedCurr) =>
               onCurrencyChange(selectedCurr as CurrenciesTypes)
             }
           >
-              <Select.Option value="USD">$USD</Select.Option>
-              <Select.Option value="EUR">€EUR</Select.Option>
-              <Select.Option value="GBP">£GBP</Select.Option>
-            </Select>
-          </Col>
-        </CurrencyContainer>
+            <Select.Option value="USD">$USD</Select.Option>
+            <Select.Option value="EUR">€EUR</Select.Option>
+            <Select.Option value="GBP">£GBP</Select.Option>
+          </Select>
+        </Col>
+      </CurrencyContainer>
       <CurrencyInput
         value={amount}
         onChange={(e) => onAmountChange(parseFloat(e.target.value))}
@@ -97,7 +103,7 @@ const CurrencyCard = ({
         suffix={type === "sell" ? "-" : "+"}
         placeholder="0"
       />
-      </CardBox>
+    </CardBox>
   );
 };
 export default CurrencyCard;
