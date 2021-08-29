@@ -1,0 +1,9 @@
+const CONVERSIONS = {
+  USD_TO_EUR: "USD_TO_EUR",
+  USD_TO_GBP: "USD_TO_GBP",
+  EUR_TO_GBP: "EUR_TO_GBP",
+  EUR_TO_USD: "EUR_TO_USD",
+  GBP_TO_EUR: "GBP_TO_EUR",
+  GBP_TO_USD: "GBP_TO_USD",
+} as const;
+export default CONVERSIONS;
