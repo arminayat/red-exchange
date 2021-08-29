@@ -1,5 +1,6 @@
 import { Col, Input, Row } from "antd";
 import styled from "styled-components";
+import BREAKPOINTS from "../../../../Constants/breakpoints";
 import { CurrenciesTypes } from "../../../../Models";
 import Select from "../../../Select";
 import { H6 } from "../../../Typography";
@@ -29,12 +30,18 @@ const CardBox = styled(Row)<{ error: boolean }>`
     }
   }
 `;
+
 const CurrencyContainer = styled(Row)`
   height: 100%;
   width: 35%;
   padding: 2rem;
   background: #ecedf6;
   border-radius: 30px;
+  @media ${BREAKPOINTS.mdDown} {
+    width: 100%;
+    height: 50%;
+    padding: 1rem 2rem;
+  }
 `;
 const CurrencyInput = styled(Input)`
   width: 65%;
@@ -58,6 +65,15 @@ const CurrencyInput = styled(Input)`
   input[type="number"] {
     -moz-appearance: textfield;
   }
+
+  @media ${BREAKPOINTS.mdDown} {
+    font-size: 4rem;
+    height: 50%;
+    width: 100%;
+    .ant-input {
+      font-size: 3rem;
+    }
+  }
 `;
 
 type CurrencyCardProp = {
@@ -79,11 +95,11 @@ const CurrencyCard = ({
 }: CurrencyCardProp) => {
   return (
     <CardBox justify="space-between" error={error}>
-      <CurrencyContainer>
-        <Col span={24}>
-          <H6>{type === "sell" ? "Sell" : "Buy"}</H6>
+      <CurrencyContainer align="middle" justify="space-between">
+        <Col md={24} xs={undefined}>
+          <H6>{type === "sell" ? "Sell:" : "Buy:"}</H6>
         </Col>
-        <Col span={24}>
+        <Col md={24} xs={undefined}>
           <Select
             value={currency}
             onSelect={(selectedCurr) =>
