@@ -3,6 +3,11 @@ import CurrencyCard from "../Components/Pages/Homepage/CurrencyCard";
 import { P1 } from "../Components/Typography";
 import { AiOutlineSwap } from "react-icons/ai";
 import styled from "styled-components";
+import { useContext } from "react";
+import { BalanceContext } from "../ContextAPI/BalanceContex";
+import { useState } from "react";
+import CURRENCIES, { CURRENCIES_SYMBOLS } from "../Constants/currencies";
+import { CurrenciesTypes } from "../Models";
 
 const SwapButton = styled.button`
   display: flex;
@@ -41,10 +46,37 @@ const SubmitButton = styled.button`
 `;
 
 const Homepage = () => {
+  const balanceCtx = useContext(BalanceContext);
+
+  const [conversion, setConversion] = useState<CurrenciesTypes[]>([
+    CURRENCIES.USD,
+    CURRENCIES.EUR,
+  ]);
+  const [amounts, setAmounts] = useState<number[]>([0, 0]);
+
+  const handleChangeBuyingCurrency = (selectedCurr: CurrenciesTypes) =>
+    setConversion((state) => [selectedCurr, state[1]]);
+  const handleChangeBuyingAmount = (amount: number) =>
+    setAmounts((state) => [amount, state[1]]);
+
+  const handleChangeSellingCurrency = (selectedCurr: CurrenciesTypes) =>
+    setConversion((state) => [state[0], selectedCurr]);
+  const handleChangeSellingAmount = (amount: number) =>
+    setAmounts((state) => [state[0], amount]);
+
+  const handleSwapCurrencies = () =>
+    setConversion((state) => [state[1], state[0]]);
+
   return (
     <Row justify="center" style={{ width: "100%" }} gutter={[0, 20]}>
       <Col span={15}>
-        <CurrencyCard />
+        <CurrencyCard
+          currency={conversion[0]}
+          amount={amounts[0]}
+          type={"sell"}
+          onCurrencyChange={handleChangeBuyingCurrency}
+          onAmountChange={handleChangeBuyingAmount}
+        />
         <Row justify="space-between" style={{ paddingTop: "1rem" }}>
           <P1
             fontWeight={400}
@@ -53,12 +85,14 @@ const Homepage = () => {
           <P1
             fontWeight={400}
             style={{ opacity: 0.3, paddingRight: "3.5rem" }}
-          >{`Balance: ${20}`}</P1>
+          >{`Balance: ${balanceCtx?.state[conversion[0]]}${
+            CURRENCIES_SYMBOLS[conversion[0]]
+          }`}</P1>
         </Row>
       </Col>
       <Col span={15}>
         <Row justify="center">
-          <SwapButton>
+          <SwapButton onClick={handleSwapCurrencies}>
             <AiOutlineSwap />
           </SwapButton>
         </Row>
@@ -72,9 +106,17 @@ const Homepage = () => {
           <P1
             fontWeight={400}
             style={{ opacity: 0.3, paddingRight: "3.5rem" }}
-          >{`Balance: ${20}`}</P1>
+          >{`Balance: ${balanceCtx?.state[conversion[1]]}${
+            CURRENCIES_SYMBOLS[conversion[1]]
+          }`}</P1>
         </Row>
-        <CurrencyCard />
+        <CurrencyCard
+          currency={conversion[1]}
+          amount={amounts[1]}
+          type={"buy"}
+          onCurrencyChange={handleChangeSellingCurrency}
+          onAmountChange={handleChangeSellingAmount}
+        />
       </Col>
       <Col style={{ paddingTop: "4rem" }} span={15}>
         <Row justify="center">
