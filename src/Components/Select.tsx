@@ -27,6 +27,7 @@ const Select = styled(AntdSelect)<SelectProps>`
     font-size: 2.8rem !important;
     padding: 1rem 0 !important;
     border: none !important;
+    box-shadow: none !important;
 
     padding-right: ${(props) =>
       props.searchPadding ? "5rem !important" : "1.5rem !important"};
@@ -38,6 +39,9 @@ const Select = styled(AntdSelect)<SelectProps>`
       padding-right: ${(props) =>
       props.searchPadding ? "3rem !important" : "1rem !important"};
     } */
+  }
+  .ant-select-arrow {
+    font-size: 2rem;
   }
 `;
 
