@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, message, Row } from "antd";
 import CurrencyCard from "../Components/Pages/Homepage/CurrencyCard";
 import { P1 } from "../Components/Typography";
 import { AiOutlineSwap } from "react-icons/ai";
@@ -7,8 +7,9 @@ import { useContext } from "react";
 import { BalanceContext } from "../ContextAPI/BalanceContex";
 import { useState } from "react";
 import CURRENCIES, { CURRENCIES_SYMBOLS } from "../Constants/currencies";
-import { CurrenciesTypes } from "../Models";
+import { ConversionTypes, CurrenciesTypes } from "../Models";
 import { queryHooks } from "../RESTservice/QueryHooks";
+import currencyToConversion from "../Components/Helpers/currencyToConversion";
 
 const SwapButton = styled.button`
   display: flex;
@@ -55,13 +56,14 @@ const Homepage = () => {
   ]);
   const [amounts, setAmounts] = useState<number[]>([0, 0]);
 
-  const { data: exchangeRate } = queryHooks.exchangeRate.useGetPairRate(
-    {
-      from: conversion[0],
-      to: conversion[1],
-    },
-    { enabled: false }
-  );
+  const { data: exchangeRate, refetch } =
+    queryHooks.exchangeRate.useGetPairRate(
+      {
+        from: conversion[0],
+        to: conversion[1],
+      }
+      // { enabled: false }
+    );
 
   const handleChangeBuyingCurrency = (selectedCurr: CurrenciesTypes) =>
     setConversion((state) => [selectedCurr, state[1]]);
@@ -73,8 +75,22 @@ const Homepage = () => {
   const handleChangeSellingAmount = (amount: number) =>
     setAmounts([amount / (exchangeRate?.conversion_rate || 1), amount]);
 
-  const handleSwapCurrencies = () =>
-    setConversion((state) => [state[1], state[0]]);
+  const handleSwapCurrencies = () => [
+    setConversion((state) => [state[1], state[0]]),
+    refetch(),
+  ];
+
+  const handleExchange = () => {
+    balanceCtx?.dispatch({
+      type: currencyToConversion(
+        conversion[0],
+        conversion[1]
+      ) as ConversionTypes,
+      payload: { sellAmount: amounts[0], buyAmount: amounts[1] },
+    });
+    setAmounts([0, 0]);
+    message.success("Exchange was successful")
+  };
 
   return (
     <Row justify="center" style={{ width: "100%" }} gutter={[0, 20]}>
@@ -136,7 +152,7 @@ const Homepage = () => {
       </Col>
       <Col style={{ paddingTop: "4rem" }} span={15}>
         <Row justify="center">
-          <SubmitButton>EXCHANGE</SubmitButton>
+          <SubmitButton onClick={handleExchange}>EXCHANGE</SubmitButton>
         </Row>
       </Col>
     </Row>
