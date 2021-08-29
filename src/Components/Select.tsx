@@ -9,17 +9,17 @@ const Select = styled(AntdSelect)<SelectProps>`
 
   & .ant-select-selection-placeholder {
     padding-top: 1rem !important;
-    /* @media ${BREAKPOINTS.mdDown} {
+    @media ${BREAKPOINTS.mdDown} {
       padding-top: 0rem !important;
-    } */
+    }
   }
   & .ant-select-selection-item {
     font-size: 5rem !important;
     padding-top: 1rem !important;
-    /* @media ${BREAKPOINTS.mdDown} {
-      font-size: 1.2rem !important;
+    @media ${BREAKPOINTS.mdDown} {
+      font-size: 2rem !important;
       padding-top: 0rem !important;
-    } */
+    }
   }
   & .ant-select-selector {
     background-color: transparent !important;
@@ -31,17 +31,20 @@ const Select = styled(AntdSelect)<SelectProps>`
 
     padding-right: ${(props) =>
       props.searchPadding ? "5rem !important" : "1.5rem !important"};
-    /* 
+
     @media ${BREAKPOINTS.mdDown} {
       height: 4rem !important;
       font-size: 1.2rem !important;
       padding: 0.5rem 0 !important;
       padding-right: ${(props) =>
-      props.searchPadding ? "3rem !important" : "1rem !important"};
-    } */
+        props.searchPadding ? "3rem !important" : "1rem !important"};
+    }
   }
-  .ant-select-arrow {
-    font-size: 2rem;
+
+  @media ${BREAKPOINTS.mdUp} {
+    .ant-select-arrow {
+      font-size: 2rem;
+    }
   }
 `;
 
