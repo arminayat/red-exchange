@@ -83,14 +83,19 @@ const Homepage = () => {
           currency={conversion[0]}
           amount={amounts[0]}
           type={"sell"}
+          error={amounts[0] > (balanceCtx?.state[conversion[0]] || 0)}
           onCurrencyChange={handleChangeBuyingCurrency}
           onAmountChange={handleChangeBuyingAmount}
         />
         <Row justify="space-between" style={{ paddingTop: "1rem" }}>
-          <P1
-            fontWeight={400}
-            style={{ opacity: 0.3, paddingLeft: "3.5rem" }}
-          >{`${1} ${"USD"} = ${0.34} ${"EUR"} `}</P1>
+          <P1 fontWeight={400} style={{ opacity: 0.3, paddingLeft: "3.5rem" }}>
+            {`${(exchangeRate?.conversion_rate || 1).toFixed(4)}${
+              CURRENCIES_SYMBOLS[conversion[1]]
+            } = ${1}${CURRENCIES_SYMBOLS[conversion[0]]}`}
+          </P1>
+          {amounts[0] > (balanceCtx?.state[conversion[0]] || 0) && (
+            <P1 color="var(--primary)">Exceeds Balance</P1>
+          )}
           <P1
             fontWeight={400}
             style={{ opacity: 0.3, paddingRight: "3.5rem" }}
@@ -108,10 +113,11 @@ const Homepage = () => {
       </Col>
       <Col span={15}>
         <Row justify="space-between" style={{ paddingBottom: "1rem" }}>
-          <P1
-            fontWeight={400}
-            style={{ opacity: 0.3, paddingLeft: "3.5rem" }}
-          >{`${1} ${"USD"} = ${0.34} ${"EUR"} `}</P1>
+          <P1 fontWeight={400} style={{ opacity: 0.3, paddingLeft: "3.5rem" }}>
+            {`${(1 / (exchangeRate?.conversion_rate || 1)).toFixed(4)}${
+              CURRENCIES_SYMBOLS[conversion[0]]
+            } = ${1}${CURRENCIES_SYMBOLS[conversion[1]]}`}
+          </P1>
           <P1
             fontWeight={400}
             style={{ opacity: 0.3, paddingRight: "3.5rem" }}
@@ -123,6 +129,7 @@ const Homepage = () => {
           currency={conversion[1]}
           amount={amounts[1]}
           type={"buy"}
+          error={false}
           onCurrencyChange={handleChangeSellingCurrency}
           onAmountChange={handleChangeSellingAmount}
         />
