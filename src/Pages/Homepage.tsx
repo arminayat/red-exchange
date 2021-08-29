@@ -10,6 +10,7 @@ import CURRENCIES, { CURRENCIES_SYMBOLS } from "../Constants/currencies";
 import { ConversionTypes, CurrenciesTypes } from "../Models";
 import { queryHooks } from "../RESTservice/QueryHooks";
 import currencyToConversion from "../Components/Helpers/currencyToConversion";
+import BREAKPOINTS from "../Constants/breakpoints";
 
 const SwapButton = styled.button`
   display: flex;
@@ -40,11 +41,14 @@ const SubmitButton = styled.button`
   transition: 0.5s box-shadow ease;
   box-shadow: 0px 4px 58px 7px rgba(0, 0, 0, 0.05);
   word-spacing: 4px;
+  margin-top: 4rem;
 
   :hover {
     color: rgba(217, 4, 41, 1);
     box-shadow: 0px 4px 40px 7px rgba(239, 35, 60, 0.15);
   }
+
+  @media ${BREAKPOINTS.mdDown} {margin-top: 2rem;}
 `;
 
 const Homepage = () => {
@@ -95,7 +99,7 @@ const Homepage = () => {
 
   return (
     <Row justify="center" style={{ width: "100%" }} gutter={[0, 20]}>
-      <Col span={15}>
+      <Col md={15} xs={24}>
         <CurrencyCard
           currency={conversion[0]}
           amount={amounts[0]}
@@ -121,14 +125,14 @@ const Homepage = () => {
           }`}</P1>
         </Row>
       </Col>
-      <Col span={15}>
+      <Col md={15} xs={24}>
         <Row justify="center">
           <SwapButton onClick={handleSwapCurrencies}>
             <AiOutlineSwap />
           </SwapButton>
         </Row>
       </Col>
-      <Col span={15}>
+      <Col md={15} xs={24}>
         <Row justify="space-between" style={{ paddingBottom: "1rem" }}>
           <P1 fontWeight={400} style={{ opacity: 0.3, paddingLeft: "3.5rem" }}>
             {`${(1 / (exchangeRate?.conversion_rate || 1)).toFixed(4)}${
@@ -151,7 +155,7 @@ const Homepage = () => {
           onAmountChange={handleChangeSellingAmount}
         />
       </Col>
-      <Col style={{ paddingTop: "4rem" }} span={15}>
+      <Col md={15} xs={15}>
         <Row justify="center">
           <SubmitButton onClick={handleExchange}>EXCHANGE</SubmitButton>
         </Row>
