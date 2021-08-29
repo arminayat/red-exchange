@@ -1,11 +1,7 @@
 import { Layout } from "antd";
 import styled from "styled-components";
+import Header from "./Components/Header/Index";
 import Homepage from "./Pages/Homepage";
-
-const Content = styled(Layout.Content)`
-  padding: 10rem;
-  background-color: var(--bg);
-`;
 
 function App() {
   return (
@@ -15,12 +11,13 @@ function App() {
         width: "100%",
         minHeight: "100vh",
         backgroundColor: "var(--bg)",
+        padding: "5rem 10rem",
       }}
     >
-      {/* <Header /> */}
-      <Content>
+      <Header />
+      <Layout.Content>
         <Homepage />
-      </Content>
+      </Layout.Content>
       {/* <Footer /> */}
     </Layout>
   );
