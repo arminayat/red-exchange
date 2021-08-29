@@ -4,6 +4,7 @@ import BREAKPOINTS from "../Constants/breakpoints";
 type typographyProps = {
   fontSize?: string;
   fontWeight?: number;
+  letterSpacing?: string;
   marginBottom?: string;
   marginTop?: string;
   marginLeft?: string;
@@ -89,7 +90,7 @@ export const P1 = styled.p<typographyProps>`
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
-  letter-spacing: normal;
+  letter-spacing: ${(props) => props.letterSpacing || "normal"};
   color: ${(props) => props.color || "#000"};
 
   margin-bottom: ${(props) => props.marginBottom || 0};
