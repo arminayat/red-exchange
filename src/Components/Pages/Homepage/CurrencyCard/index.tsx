@@ -1,5 +1,6 @@
 import { Col, Input, InputNumber, Row, Space } from "antd";
 import styled from "styled-components";
+import { CurrenciesTypes } from "../../../../Models";
 import Select from "../../../Select";
 import { H6, P1 } from "../../../Typography";
 
@@ -37,7 +38,21 @@ const CurrencyInput = styled(Input)`
   }
 `;
 
-const CurrencyCard = () => {
+type CurrencyCardProp = {
+  currency: CurrenciesTypes;
+  amount: number;
+  onCurrencyChange: (currency: CurrenciesTypes) => void;
+  onAmountChange: (amount: number) => void;
+  type: "sell" | "buy";
+};
+
+const CurrencyCard = ({
+  currency,
+  amount,
+  onCurrencyChange,
+  onAmountChange,
+  type,
+}: CurrencyCardProp) => {
   return (
       <CardBox justify="space-between">
         <CurrencyContainer>
@@ -45,14 +60,25 @@ const CurrencyCard = () => {
             <H6>Sell</H6>
           </Col>
           <Col span={24}>
-            <Select>
+          <Select
+            value={currency}
+            onSelect={(selectedCurr) =>
+              onCurrencyChange(selectedCurr as CurrenciesTypes)
+            }
+          >
               <Select.Option value="USD">$USD</Select.Option>
               <Select.Option value="EUR">€EUR</Select.Option>
               <Select.Option value="GBP">£GBP</Select.Option>
             </Select>
           </Col>
         </CurrencyContainer>
-        <CurrencyInput suffix="+" placeholder="0"/>
+      <CurrencyInput
+        value={amount}
+        onChange={(e) => onAmountChange(parseFloat(e.target.value))}
+        type="number"
+        suffix={type === "sell" ? "-" : "+"}
+        placeholder="0"
+      />
       </CardBox>
   );
 };
