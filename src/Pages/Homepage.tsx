@@ -75,10 +75,11 @@ const Homepage = () => {
   const handleChangeSellingAmount = (amount: number) =>
     setAmounts([amount / (exchangeRate?.conversion_rate || 1), amount]);
 
-  const handleSwapCurrencies = () => [
-    setConversion((state) => [state[1], state[0]]),
-    refetch(),
-  ];
+  const handleSwapCurrencies = () => {
+    setConversion((state) => [state[1], state[0]]);
+    setAmounts((state) => [state[1], state[0]]);
+    refetch();
+  };
 
   const handleExchange = () => {
     balanceCtx?.dispatch({
@@ -89,7 +90,7 @@ const Homepage = () => {
       payload: { sellAmount: amounts[0], buyAmount: amounts[1] },
     });
     setAmounts([0, 0]);
-    message.success("Exchange was successful")
+    message.success("Exchange was successful");
   };
 
   return (
