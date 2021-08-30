@@ -6,7 +6,7 @@ import { CardBox, CurrencyContainer, CurrencyInput } from "./components";
 
 type CurrencyCardProp = {
   currency: CurrenciesTypes;
-  amount: number;
+  amount: number | undefined;
   onCurrencyChange: (currency: CurrenciesTypes) => void;
   onAmountChange: (amount: number) => void;
   type: "sell" | "buy";
@@ -42,16 +42,13 @@ const CurrencyCard = ({
         </Col>
       </CurrencyContainer>
       <CurrencyInput
-        value={!!amount ? amount : undefined}
-        onChange={(e) =>
-          !!e.target.value
-            ? onAmountChange(parseFloat(e.target.value))
-            : onAmountChange(0)
-        }
+        value={amount}
+        onChange={(e) => onAmountChange(parseFloat(e.target.value))}
         type="number"
         suffix={type === "sell" ? "-" : "+"}
         placeholder="0"
         data-testid={`amount-input-${type}`}
+        min={0}
       />
     </CardBox>
   );

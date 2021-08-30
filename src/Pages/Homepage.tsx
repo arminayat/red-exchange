@@ -6,7 +6,7 @@ import CURRENCIES from "../Constants/currencies";
 import { ConversionTypes, CurrenciesTypes } from "../Models";
 import { queryHooks } from "../RESTservice/QueryHooks";
 import currencyToConversion from "../Components/Helpers/currencyToConversion";
-import HomepageLayout from "../Components/Pages/Homepage/Layout/Layout";
+import HomepageLayout from "../Components/Pages/Homepage/Layout";
 
 const Homepage = () => {
   const balanceCtx = useContext(BalanceContext);
@@ -15,7 +15,11 @@ const Homepage = () => {
     CURRENCIES.USD,
     CURRENCIES.EUR,
   ]);
-  const [amounts, setAmounts] = useState<number[]>([0, 0]);
+  const [amounts, setAmounts] = useState<(number | undefined)[]>([
+    undefined,
+    undefined,
+  ]);
+  const [lastChanged, setLastChanged] = useState<"sell" | "buy">("sell");
 
   const { data: exchangeRate, refetch } =
     queryHooks.exchangeRate.useGetPairRate(
@@ -23,20 +27,49 @@ const Homepage = () => {
         from: conversion[0],
         to: conversion[1],
       },
-      { refetchInterval: 60 * 1000 }
+      {
+        refetchInterval: 60 * 1000,
+        onSuccess: (data) =>
+          lastChanged === "sell"
+            ? handleChangeSellingAmount(amounts[0], data.conversion_rate)
+            : handleChangeBuyingAmount(amounts[1], data.conversion_rate),
+      }
     );
 
-  const handleChangeBuyingCurrency = (selectedCurr: CurrenciesTypes) =>
+  const handleChangeSellingCurrency = (selectedCurr: CurrenciesTypes) => {
     setConversion((state) => [selectedCurr, state[1]]);
-  const handleChangeBuyingAmount = (amount: number) =>
-    amount >= 0 &&
-    setAmounts([amount, amount * (exchangeRate?.conversion_rate || 1)]);
+    setLastChanged("sell");
+  };
+  const handleChangeSellingAmount = (
+    amount: number | undefined,
+    rate?: number
+  ) => {
+    amount && amount >= 0
+      ? setAmounts([
+          amount,
+          amount * (rate || exchangeRate?.conversion_rate || 1),
+        ])
+      : setAmounts([undefined, undefined]);
+    setLastChanged("sell");
+  };
 
-  const handleChangeSellingCurrency = (selectedCurr: CurrenciesTypes) =>
+  const handleChangeBuyingCurrency = (selectedCurr: CurrenciesTypes) => {
     setConversion((state) => [state[0], selectedCurr]);
-  const handleChangeSellingAmount = (amount: number) =>
-    amount >= 0 &&
-    setAmounts([amount / (exchangeRate?.conversion_rate || 1), amount]);
+    handleChangeSellingAmount(amounts[0]);
+    setLastChanged("buy");
+  };
+  const handleChangeBuyingAmount = (
+    amount: number | undefined,
+    rate?: number
+  ) => {
+    amount && amount >= 0
+      ? setAmounts([
+          amount / (rate || exchangeRate?.conversion_rate || 1),
+          amount,
+        ])
+      : setAmounts([undefined, undefined]);
+    setLastChanged("buy");
+  };
 
   const handleSwapCurrencies = () => {
     setConversion((state) => [state[1], state[0]]);
@@ -50,7 +83,10 @@ const Homepage = () => {
         conversion[0],
         conversion[1]
       ) as ConversionTypes,
-      payload: { sellAmount: amounts[0], buyAmount: amounts[1] },
+      payload: {
+        sellAmount: amounts[0] as number,
+        buyAmount: amounts[1] as number,
+      },
     });
     setAmounts([0, 0]);
     message.success("Exchange was successful");
@@ -65,7 +101,7 @@ const Homepage = () => {
       ]}
       conversion={conversion}
       conversionRate={exchangeRate?.conversion_rate || 1}
-      error={amounts[0] > (balanceCtx?.state[conversion[0]] || 0)}
+      error={(amounts[0] || 0) > (balanceCtx?.state[conversion[0]] || 0)}
       handleChangeSellingAmount={handleChangeSellingAmount}
       handleChangeSellingCurrency={handleChangeSellingCurrency}
       handleChangeBuyingAmount={handleChangeBuyingAmount}
