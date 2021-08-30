@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/red-exchange/static/css/main.67b6024d.chunk.css",
-    "main.js": "/red-exchange/static/js/main.45cea911.chunk.js",
-    "main.js.map": "/red-exchange/static/js/main.45cea911.chunk.js.map",
+    "main.js": "/red-exchange/static/js/main.63e6e19b.chunk.js",
+    "main.js.map": "/red-exchange/static/js/main.63e6e19b.chunk.js.map",
     "runtime-main.js": "/red-exchange/static/js/runtime-main.b2099aed.js",
     "runtime-main.js.map": "/red-exchange/static/js/runtime-main.b2099aed.js.map",
     "static/css/2.786ae0dd.chunk.css": "/red-exchange/static/css/2.786ae0dd.chunk.css",
@@ -18,6 +18,6 @@
     "static/css/2.786ae0dd.chunk.css",
     "static/js/2.07fa4ba7.chunk.js",
     "static/css/main.67b6024d.chunk.css",
-    "static/js/main.45cea911.chunk.js"
+    "static/js/main.63e6e19b.chunk.js"
   ]
 }
