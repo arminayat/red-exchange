@@ -1,63 +1,12 @@
-import { Col, message, Row } from "antd";
-import CurrencyCard from "../Components/Pages/Homepage/CurrencyCard";
-import { P1 } from "../Components/Typography";
-import { AiOutlineSwap } from "react-icons/ai";
-import styled from "styled-components";
+import { message } from "antd";
 import { useContext } from "react";
-import { BalanceContext } from "../ContextAPI/BalanceContex";
+import { BalanceContext } from "../ContextAPI/BalanceContext";
 import { useState } from "react";
-import CURRENCIES, { CURRENCIES_SYMBOLS } from "../Constants/currencies";
+import CURRENCIES from "../Constants/currencies";
 import { ConversionTypes, CurrenciesTypes } from "../Models";
 import { queryHooks } from "../RESTservice/QueryHooks";
 import currencyToConversion from "../Components/Helpers/currencyToConversion";
-import BREAKPOINTS from "../Constants/breakpoints";
-
-const SwapButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10rem;
-  background-color: #fff;
-  height: 5rem;
-  width: 5rem;
-  font-size: 3rem;
-  transition: 0.5s box-shadow ease;
-  :hover {
-    box-shadow: 0px 4px 40px 7px rgba(0, 0, 0, 0.05);
-  }
-`;
-const SubmitButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  border-radius: 2rem;
-  font-size: 2.8rem;
-  font-weight: 400;
-  height: 6rem;
-  width: 30rem;
-  padding-bottom: 0.2rem;
-  color: rgba(217, 4, 41, 0.8);
-  background: rgb(255, 255, 255);
-  transition: 0.5s box-shadow ease, 0.5s color ease, 0.5s background-color ease;
-  box-shadow: 0px 4px 58px 7px rgba(0, 0, 0, 0.05);
-  word-spacing: 4px;
-  margin-top: 4rem;
-
-  :hover {
-    color: rgba(217, 4, 41, 1);
-    box-shadow: 0px 4px 40px 7px rgba(239, 35, 60, 0.15);
-  }
-  :disabled {
-    color: rgba(0, 0, 0, 0.45);
-    background-color: rgba(0, 0, 0, 0.05);
-    box-shadow: none;
-    cursor: not-allowed;
-  }
-
-  @media ${BREAKPOINTS.mdDown} {
-    margin-top: 2rem;
-  }
-`;
+import HomepageLayout from "../Components/Pages/Homepage/Layout/Layout";
 
 const Homepage = () => {
   const balanceCtx = useContext(BalanceContext);
@@ -69,13 +18,10 @@ const Homepage = () => {
   const [amounts, setAmounts] = useState<number[]>([0, 0]);
 
   const { data: exchangeRate, refetch } =
-    queryHooks.exchangeRate.useGetPairRate(
-      {
-        from: conversion[0],
-        to: conversion[1],
-      }
-      // { enabled: false }
-    );
+    queryHooks.exchangeRate.useGetPairRate({
+      from: conversion[0],
+      to: conversion[1],
+    });
 
   const handleChangeBuyingCurrency = (selectedCurr: CurrenciesTypes) =>
     setConversion((state) => [selectedCurr, state[1]]);
@@ -108,74 +54,22 @@ const Homepage = () => {
   };
 
   return (
-    <Row justify="center" style={{ width: "100%" }} gutter={[0, 20]}>
-      <Col md={15} xs={24}>
-        <CurrencyCard
-          currency={conversion[0]}
-          amount={amounts[0]}
-          type={"sell"}
-          error={amounts[0] > (balanceCtx?.state[conversion[0]] || 0)}
-          onCurrencyChange={handleChangeBuyingCurrency}
-          onAmountChange={handleChangeBuyingAmount}
-        />
-        <Row justify="space-between" style={{ paddingTop: "1rem" }}>
-          <P1 fontWeight={400} style={{ opacity: 0.3, paddingLeft: "3.5rem" }}>
-            {`${(exchangeRate?.conversion_rate || 1).toFixed(4)}${
-              CURRENCIES_SYMBOLS[conversion[1]]
-            } = ${1}${CURRENCIES_SYMBOLS[conversion[0]]}`}
-          </P1>
-          {amounts[0] > (balanceCtx?.state[conversion[0]] || 0) && (
-            <P1 color="var(--primary)">Exceeds Balance</P1>
-          )}
-          <P1
-            fontWeight={400}
-            style={{ opacity: 0.3, paddingRight: "3.5rem" }}
-          >{`Balance: ${balanceCtx?.state[conversion[0]]}${
-            CURRENCIES_SYMBOLS[conversion[0]]
-          }`}</P1>
-        </Row>
-      </Col>
-      <Col md={15} xs={24}>
-        <Row justify="center">
-          <SwapButton onClick={handleSwapCurrencies}>
-            <AiOutlineSwap />
-          </SwapButton>
-        </Row>
-      </Col>
-      <Col md={15} xs={24}>
-        <Row justify="space-between" style={{ paddingBottom: "1rem" }}>
-          <P1 fontWeight={400} style={{ opacity: 0.3, paddingLeft: "3.5rem" }}>
-            {`${(1 / (exchangeRate?.conversion_rate || 1)).toFixed(4)}${
-              CURRENCIES_SYMBOLS[conversion[0]]
-            } = ${1}${CURRENCIES_SYMBOLS[conversion[1]]}`}
-          </P1>
-          <P1
-            fontWeight={400}
-            style={{ opacity: 0.3, paddingRight: "3.5rem" }}
-          >{`Balance: ${balanceCtx?.state[conversion[1]]}${
-            CURRENCIES_SYMBOLS[conversion[1]]
-          }`}</P1>
-        </Row>
-        <CurrencyCard
-          currency={conversion[1]}
-          amount={amounts[1]}
-          type={"buy"}
-          error={false}
-          onCurrencyChange={handleChangeSellingCurrency}
-          onAmountChange={handleChangeSellingAmount}
-        />
-      </Col>
-      <Col md={15} xs={15}>
-        <Row justify="center">
-          <SubmitButton
-            onClick={handleExchange}
-            disabled={amounts[0] > (balanceCtx?.state[conversion[0]] || 0)}
-          >
-            EXCHANGE
-          </SubmitButton>
-        </Row>
-      </Col>
-    </Row>
+    <HomepageLayout
+      amounts={amounts}
+      balances={[
+        balanceCtx?.state[conversion[0]] || 0,
+        balanceCtx?.state[conversion[1]] || 0,
+      ]}
+      conversion={conversion}
+      conversionRate={exchangeRate?.conversion_rate || 1}
+      error={amounts[0] > (balanceCtx?.state[conversion[0]] || 0)}
+      handleChangeSellingAmount={handleChangeSellingAmount}
+      handleChangeSellingCurrency={handleChangeSellingCurrency}
+      handleChangeBuyingAmount={handleChangeBuyingAmount}
+      handleChangeBuyingCurrency={handleChangeBuyingCurrency}
+      handleSwapCurrencies={handleSwapCurrencies}
+      handleExchange={handleExchange}
+    />
   );
 };
 export default Homepage;
