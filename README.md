@@ -19,6 +19,12 @@
 	 - using redux-like state management alogn with context api
 	 - has unit and integration tests based on `jest` and `react-testing-library` (not 100% covered)
 
+## TODO ✏️
+- Implement backend to save user's balances and sessions
+- Implement login and signup pages
+- Handle authentication
+- Implement admin panel to modify favorite currencies???
+
 ## Available Scripts ⚛️
 
   This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
