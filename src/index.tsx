@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./Styles/index.scss";
 import "antd/dist/antd.css";
 import App from "./App";
-import { BalanceContextProvider } from "./ContextAPI/BalanceContex";
+import { BalanceContextProvider } from "./ContextAPI/BalanceContext";
 import { QueryClientProvider } from "react-query";
 import queryClient from "./RESTservice/queryClient";
 
