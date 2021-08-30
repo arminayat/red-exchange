@@ -9,7 +9,7 @@ import { SubmitButton } from "./components";
 type HomepageLayoutTypes = {
   conversion: CurrenciesTypes[];
   conversionRate: number;
-  amounts: number[];
+  amounts: (number | undefined)[];
   balances: number[];
   error: boolean;
   handleChangeBuyingCurrency: (selectedCurr: CurrenciesTypes) => void;
@@ -40,8 +40,8 @@ const HomepageLayout = ({
           amount={amounts[0]}
           type={"sell"}
           error={error}
-          onCurrencyChange={handleChangeBuyingCurrency}
-          onAmountChange={handleChangeBuyingAmount}
+          onCurrencyChange={handleChangeSellingCurrency}
+          onAmountChange={handleChangeSellingAmount}
         />
         <CurrencyCardInfo
           balances={balances}
@@ -77,8 +77,8 @@ const HomepageLayout = ({
           amount={amounts[1]}
           type={"buy"}
           error={false}
-          onCurrencyChange={handleChangeSellingCurrency}
-          onAmountChange={handleChangeSellingAmount}
+          onCurrencyChange={handleChangeBuyingCurrency}
+          onAmountChange={handleChangeBuyingAmount}
         />
       </Col>
       <Col md={15} xs={15}>
