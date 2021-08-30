@@ -9,7 +9,7 @@
 ## Features ✅
 
  - Always Updated
-	 - fetch exchange rates online and every 30 seconds to keep you updated
+	 - fetch exchange rates online and every minute to keep you updated
 	 - using `react-query`, fetching queries is easier than ever
  - Gorgeous UI
 	 - styled beautifully using `styed-components`

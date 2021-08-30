@@ -18,10 +18,13 @@ const Homepage = () => {
   const [amounts, setAmounts] = useState<number[]>([0, 0]);
 
   const { data: exchangeRate, refetch } =
-    queryHooks.exchangeRate.useGetPairRate({
-      from: conversion[0],
-      to: conversion[1],
-    });
+    queryHooks.exchangeRate.useGetPairRate(
+      {
+        from: conversion[0],
+        to: conversion[1],
+      },
+      { refetchInterval: 60 * 1000 }
+    );
 
   const handleChangeBuyingCurrency = (selectedCurr: CurrenciesTypes) =>
     setConversion((state) => [selectedCurr, state[1]]);
