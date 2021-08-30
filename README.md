@@ -4,7 +4,7 @@
   
 
 # 💢 Online Minimal Currency Exchange 💢
-[LINK TO RED EXCHANGE](https://github.com/arminayat/red-exchange)
+[LINK TO RED EXCHANGE](https://arminayat.github.io/red-exchange)
 
 ## Features ✅
 
