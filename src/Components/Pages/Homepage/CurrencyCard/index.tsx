@@ -113,8 +113,12 @@ const CurrencyCard = ({
         </Col>
       </CurrencyContainer>
       <CurrencyInput
-        value={amount}
-        onChange={(e) => onAmountChange(parseFloat(e.target.value))}
+        value={!!amount ? amount : undefined}
+        onChange={(e) =>
+          !!e.target.value
+            ? onAmountChange(parseFloat(e.target.value))
+            : onAmountChange(0)
+        }
         type="number"
         suffix={type === "sell" ? "-" : "+"}
         placeholder="0"
