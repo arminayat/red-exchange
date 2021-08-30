@@ -1,20 +1,6 @@
 import styled from "styled-components";
 import BREAKPOINTS from "../../../../Constants/breakpoints";
 
-export const SwapButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10rem;
-  background-color: #fff;
-  height: 5rem;
-  width: 5rem;
-  font-size: 3rem;
-  transition: 0.5s box-shadow ease;
-  :hover {
-    box-shadow: 0px 4px 40px 7px rgba(0, 0, 0, 0.05);
-  }
-`;
 export const SubmitButton = styled.button`
   display: flex;
   align-items: center;

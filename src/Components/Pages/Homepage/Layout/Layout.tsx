@@ -1,9 +1,10 @@
 import { Col, Row } from "antd";
 import { AiOutlineSwap } from "react-icons/ai";
 import { CurrenciesTypes } from "../../../../Models";
+import Button from "../../../Button";
 import CurrencyCard from "../CurrencyCard";
 import CurrencyCardInfo from "../CurrencyCardInfo";
-import { SubmitButton, SwapButton } from "./components";
+import { SubmitButton } from "./components";
 
 type HomepageLayoutTypes = {
   conversion: CurrenciesTypes[];
@@ -52,9 +53,9 @@ const HomepageLayout = ({
       </Col>
       <Col md={15} xs={24}>
         <Row justify="center">
-          <SwapButton onClick={handleSwapCurrencies}>
+          <Button color="#000" height="5rem" width="5rem" onClick={handleSwapCurrencies}>
             <AiOutlineSwap />
-          </SwapButton>
+          </Button>
         </Row>
       </Col>
       <Col md={15} xs={24}>
