@@ -33,7 +33,7 @@ const WalletModal = ({
         </P1>
       </Row>
       {Object.keys(balanceCtx?.state || {}).map((curr) => (
-        <BalanceRow justify="space-between">
+        <BalanceRow justify="space-between" key="curr">
           <P1 fontSize="3rem">{curr}</P1>
           <P1 fontSize="3rem" fontWeight={400}>
             {balanceCtx?.state[curr as CurrenciesTypes].toFixed(2) +

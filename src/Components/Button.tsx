@@ -30,4 +30,8 @@ export default styled(Button)<ButtonProps>`
     color: ${(props) => props.color || "rgba(217, 4, 41, 1)"};
     box-shadow: 0px 4px 40px 7px rgba(0, 0, 0, 0.1);
   }
+
+  :focus{
+    color: ${(props) => props.color || "rgba(217, 4, 41, 1)"};
+  }
 `;

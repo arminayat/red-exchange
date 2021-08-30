@@ -53,7 +53,13 @@ const HomepageLayout = ({
       </Col>
       <Col md={15} xs={24}>
         <Row justify="center">
-          <Button color="#000" height="5rem" width="5rem" onClick={handleSwapCurrencies}>
+          <Button
+            color="#000"
+            height="5rem"
+            width="5rem"
+            onClick={handleSwapCurrencies}
+            data-testid="swap-button"
+          >
             <AiOutlineSwap />
           </Button>
         </Row>
@@ -77,7 +83,10 @@ const HomepageLayout = ({
       </Col>
       <Col md={15} xs={15}>
         <Row justify="center">
-          <SubmitButton onClick={handleExchange} disabled={error}>
+          <SubmitButton
+            onClick={handleExchange}
+            disabled={error || amounts[0] === 0}
+          >
             EXCHANGE
           </SubmitButton>
         </Row>

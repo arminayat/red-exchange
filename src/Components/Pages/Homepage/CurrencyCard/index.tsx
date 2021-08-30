@@ -33,6 +33,7 @@ const CurrencyCard = ({
             onSelect={(selectedCurr) =>
               onCurrencyChange(selectedCurr as CurrenciesTypes)
             }
+            data-testid={`select-currency-${type}`}
           >
             <Select.Option value="USD">$USD</Select.Option>
             <Select.Option value="EUR">€EUR</Select.Option>
@@ -50,6 +51,7 @@ const CurrencyCard = ({
         type="number"
         suffix={type === "sell" ? "-" : "+"}
         placeholder="0"
+        data-testid={`amount-input-${type}`}
       />
     </CardBox>
   );
