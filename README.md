@@ -16,7 +16,7 @@
 	 - using customized components based on AntDesign
 	 - of course it is mobile-friendly
  - Code, as clean as UI
-	 - using redux-like state management alogn with context api
+	 - using redux-like state management along with context api
 	 - has unit and integration tests based on `jest` and `react-testing-library` (not 100% covered)
 
 ## TODO ✏️
